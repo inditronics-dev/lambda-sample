@@ -1,0 +1,31 @@
+name: Deploy Lambda
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/github-lambda-deploy
+          aws-region: ap-south-1
+
+      - name: Zip code
+        run: zip function.zip lambda_function.py
+
+      - name: Deploy to Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name my-sample-function \
+            --zip-file fileb://function.zip
+          aws lambda wait function-updated \
+            --function-name my-sample-function
