@@ -16,7 +16,7 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::123456789012:role/github-lambda-deploy
+          role-to-assume: arn:aws:iam::211125623336:role/github-lambda-deploy
           aws-region: ap-south-1
 
       - name: Zip code
